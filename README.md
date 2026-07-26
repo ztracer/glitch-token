@@ -12,7 +12,7 @@
 
 当 Glitch Token 出现在输入中时，会引发从嵌入异常到注意力崩溃的连锁反应，导致模型产生乱码、幻觉、重复循环、拒答甚至输出辱骂性内容。研究表明，主流模型中约 **4.3%** 的词汇表条目表现出故障行为，跨语言不完整 token 的幻觉率高达 **33-77%**。
 
-本项目包含一份完整的中文研究报告和一件交互式生成艺术作品，从 15 个真实案例出发，深入解析 Glitch Token 的分类体系、七层技术机制、MiniMax"马嘉祺"事件深度复盘，以及当前学术界检测与修复方法的最新进展。
+本项目包含一份完整的中文研究报告，从 15 个真实案例出发，深入解析 Glitch Token 的分类体系、七层技术机制、MiniMax"马嘉祺"事件深度复盘，以及当前学术界检测与修复方法的最新进展。
 
 ---
 
@@ -21,8 +21,6 @@
 | 页面 | 说明 |
 |------|------|
 | [**研究报告**](https://ztracer.github.io/glitch-token/glitch-tokens-research.html) | 7 大章节、15 个案例、5 个 ECharts 数据可视化、28 条参考文献 |
-| [**熵增碎片化**](https://ztracer.github.io/glitch-token/entropic-fragmentation.html) | 交互式 p5.js 生成艺术——词元腐败与信息衰减的可视化隐喻 |
-| [**算法哲学**](https://ztracer.github.io/glitch-token/entropic-fragmentation-essay.html) | 伴读哲学随笔，阐述生成算法与 Glitch Token 的概念关联 |
 
 ### 研究报告章节
 
@@ -46,7 +44,6 @@
 |------|------|
 | **HTML5 / CSS3** | 页面结构与样式，CSS Custom Properties 暗色主题 |
 | **Apache ECharts** | 5 个数据可视化图表（类型分布、普遍程度、语种退化、余弦相似度、检测方法雷达图） |
-| **p5.js** (v1.7.0) | 生成艺术渲染引擎（Perlin 噪声流场 + 粒子碎片化模拟） |
 | **Instrument Sans** | 正文字体（Regular / Bold） |
 | **JetBrains Mono** | 代码/Token 等宽字体（Regular / Bold） |
 | **GitHub Pages** | 静态站点部署 |
@@ -113,9 +110,6 @@
 ```
 ├── index.html                          # 首页
 ├── glitch-tokens-research.html         # 研究报告（含 ECharts 图表）
-├── entropic-fragmentation.html         # 生成艺术交互页
-├── entropic-fragmentation-essay.html   # 算法哲学随笔
-├── entropic-fragmentation.md           # 随笔原文（Markdown）
 ├── assets/
 │   └── favicon.svg                     # 站点图标
 ├── _shared/
@@ -126,8 +120,7 @@
 │   │   ├── JetBrainsMono-Regular.ttf
 │   │   └── JetBrainsMono-Bold.ttf
 │   └── js/
-│       ├── echarts.min.js              # ECharts 可视化库
-│       └── p5.min.js                   # p5.js 生成艺术引擎
+│       └── echarts.min.js              # ECharts 可视化库
 └── .github/
     └── workflows/
         └── deploy.yml                  # GitHub Pages 自动部署

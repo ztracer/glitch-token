@@ -154,6 +154,8 @@ ul li { margin-bottom: 0.5rem; }
 .callout.warning .callout-title { color: var(--warning); }
 .callout.danger { border-left-color: var(--danger); }
 .callout.danger .callout-title { color: var(--danger); }
+.callout.info { border-left-color: var(--accent3); }
+.callout.info .callout-title { color: var(--accent3); }
 .callout-title {
   font-weight: 700; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--accent);
   font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em;
@@ -941,7 +943,10 @@ footer .sources .src-url {
   </div>
 
   <div class="chart-container">
-    <div id="chart-cosine-similarity" style="width:100%;height:380px;"></div>
+    <div id="chart-cosine-sim" style="width:100%;height:340px;"></div>
+  </div>
+  <div class="chart-container">
+    <div id="chart-token-count" style="width:100%;height:340px;"></div>
   </div>
 
   <h3>具体退化案例：日语 token 的替代输出</h3>
@@ -1214,8 +1219,8 @@ footer .sources .src-url {
 
   <p>随着 GlitchHunter、Magikarp、GlitchProber、GlitchMiner 等检测工具的发展，以及字节级架构（如 BLT）的探索，社区正在逐步理解并缓解这个问题。但在可预见的未来，Dirty Token 仍将是 LLM 可靠性、稳健性和安全性领域需要持续关注的重要议题。</p>
 
-  <div class="callout callout-info" style="border-left-color:var(--accent3);">
-    <div class="callout-title" style="color:var(--accent3);">交互可视化</div>
+  <div class="callout callout-info">
+    <div class="callout-title">交互可视化</div>
     <p>探索 <a href="entropic-fragmentation.html" style="color:var(--accent)">熵增碎片化</a> 生成艺术作品 — 一个关于词元腐败与信息衰减的交互式可视化。</p>
   </div>
 </section>
@@ -1396,21 +1401,6 @@ if (typeof echarts !== 'undefined') {
   var c2 = echarts.init(document.getElementById('chart-prevalence'), darkTheme);
   c2.setOption({
     title: { text: 'Glitch Token 在主流模型中的普遍程度', left: 'center', top: 10, textStyle: { fontSize: 14, color: '#e8e9ed' } },
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    legend: { data: ['故障 Token 比例 (%)', '跨语言幻觉率 (%)'], top: 40, textStyle: { color: '#8b8fa3' } },
-    grid: { left: '12%', right: '10%', top: 80, bottom: 40 },
-    xAxis: { type: 'category', data: ['主流模型\n(平均)', 'Llama/\nMistral', '微调数据集\n(平均)', '跨语言\n不完整Token'],
-      axisLine: { lineStyle: { color: '#2a2e3d' } }, axisLabel: { color: '#8b8fa3', fontSize: 11, interval: 0 } },
-    yAxis: { type: 'value', axisLine: { lineStyle: { color: '#2a2e3d } }, axisLabel: { color: '#8b8fa3' }, splitLine: { lineStyle: { color: '#1e2230' } } },
-    series: [
-      { name: '故障 Token 比例 (%)', type: 'bar', data: [4.3, 0, 2, 0], itemStyle: { color: '#818cf8' }, barWidth: 28 },
-      { name: '跨语言幻觉率 (%)', type: 'bar', data: [0, 0, 0, 55], itemStyle: { color: '#f472b6' }, barWidth: 28,
-        markPoint: { data: [{ coord: [3, 33], name: '低' }, { coord: [3, 77], name: '高' }], symbolSize: 30, itemStyle: { color: '#f87171' } } }
-    ]
-  });
-  // Better approach for chart 2 - use a cleaner representation
-  c2.setOption({
-    title: { text: 'Glitch Token 在主流模型中的普遍程度', left: 'center', top: 10, textStyle: { fontSize: 14, color: '#e8e9ed' } },
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: function(params) { var s = params[0].name + '<br/>'; params.forEach(function(p) { s += p.marker + p.seriesName + ': ' + p.value + '%<br/>'; }); return s; } },
     legend: { data: ['故障/退化比例', '幻觉率范围'], top: 40, textStyle: { color: '#8b8fa3' } },
     grid: { left: '12%', right: '10%', top: 80, bottom: 40 },
@@ -1449,25 +1439,37 @@ if (typeof echarts !== 'undefined') {
     visualMap: { show: false, min: 3, max: 30, inRange: { color: ['#34d399', '#fbbf24', '#f472b6'] } }
   });
 
-  // Chart 4: lm_head Cosine Similarity Comparison
-  var c4 = echarts.init(document.getElementById('chart-cosine-similarity'), darkTheme);
-  c4.setOption({
+  // Chart 4a: Cosine Similarity Comparison
+  var c4a = echarts.init(document.getElementById('chart-cosine-sim'), darkTheme);
+  c4a.setOption({
     title: { text: 'lm_head 余弦相似度：实验组 vs Baseline', left: 'center', top: 10, textStyle: { fontSize: 14, color: '#e8e9ed' } },
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
     legend: { data: ['实验组（+全词表覆盖）', 'Baseline（标准 SFT）'], top: 40, textStyle: { color: '#8b8fa3' } },
     grid: { left: '15%', right: '10%', top: 80, bottom: 40 },
-    xAxis: { type: 'category', data: ['cos sim\n均值', 'cos sim\n最小值', 'cos_sim<0.95\nToken数', 'cos_sim<0.90\nToken数'],
-      axisLine: { lineStyle: { color: '#2a2e3d' } }, axisLabel: { color: '#8b8fa3', fontSize: 10, interval: 0 } },
-    yAxis: [ {
-      type: 'value', name: '相似度', nameTextStyle: { color: '#8b8fa3' }, min: 0, max: 1,
-      axisLine: { lineStyle: { color: '#2a2e3d' } }, axisLabel: { color: '#8b8fa3' }, splitLine: { lineStyle: { color: '#1e2230' } }
-    }, {
-      type: 'value', name: 'Token数', nameTextStyle: { color: '#8b8fa3' },
-      axisLine: { lineStyle: { color: '#2a2e3d' } }, axisLabel: { color: '#8b8fa3' }, splitLine: { show: false }
-    } ],
+    xAxis: { type: 'category', data: ['cos sim\n均值', 'cos sim\n最小值'],
+      axisLine: { lineStyle: { color: '#2a2e3d' } }, axisLabel: { color: '#8b8fa3', fontSize: 11, interval: 0 } },
+    yAxis: { type: 'value', name: '相似度', nameTextStyle: { color: '#8b8fa3' }, min: 0, max: 1,
+      axisLine: { lineStyle: { color: '#2a2e3d' } }, axisLabel: { color: '#8b8fa3' }, splitLine: { lineStyle: { color: '#1e2230' } } },
     series: [
-      { name: '实验组（+全词表覆盖）', type: 'bar', data: [0.9992, 0.9711, 0, 0], itemStyle: { color: '#34d399' }, barWidth: 24, label: { show: true, position: 'top', color: '#34d399', fontSize: 11, formatter: function(p) { return p.value > 0 ? p.value : '0'; } } },
-      { name: 'Baseline（标准 SFT）', type: 'bar', data: [0.9837, 0.3290, 9805, 4234], itemStyle: { color: '#f87171' }, barWidth: 24, yAxisIndex: 1, label: { show: true, position: 'top', color: '#f87171', fontSize: 11 } }
+      { name: '实验组（+全词表覆盖）', type: 'bar', data: [0.9992, 0.9711], itemStyle: { color: '#34d399' }, barWidth: 24, label: { show: true, position: 'top', color: '#34d399', fontSize: 11 } },
+      { name: 'Baseline（标准 SFT）', type: 'bar', data: [0.9837, 0.3290], itemStyle: { color: '#f87171' }, barWidth: 24, label: { show: true, position: 'top', color: '#f87171', fontSize: 11 } }
+    ]
+  });
+
+  // Chart 4b: Token Count Comparison
+  var c4b = echarts.init(document.getElementById('chart-token-count'), darkTheme);
+  c4b.setOption({
+    title: { text: '异常 Token 数量：实验组 vs Baseline', left: 'center', top: 10, textStyle: { fontSize: 14, color: '#e8e9ed' } },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    legend: { data: ['实验组（+全词表覆盖）', 'Baseline（标准 SFT）'], top: 40, textStyle: { color: '#8b8fa3' } },
+    grid: { left: '15%', right: '10%', top: 80, bottom: 40 },
+    xAxis: { type: 'category', data: ['cos_sim<0.95\nToken数', 'cos_sim<0.90\nToken数'],
+      axisLine: { lineStyle: { color: '#2a2e3d' } }, axisLabel: { color: '#8b8fa3', fontSize: 11, interval: 0 } },
+    yAxis: { type: 'value', name: 'Token数', nameTextStyle: { color: '#8b8fa3' },
+      axisLine: { lineStyle: { color: '#2a2e3d' } }, axisLabel: { color: '#8b8fa3' }, splitLine: { lineStyle: { color: '#1e2230' } } },
+    series: [
+      { name: '实验组（+全词表覆盖）', type: 'bar', data: [0, 0], itemStyle: { color: '#34d399' }, barWidth: 24, label: { show: true, position: 'top', color: '#34d399', fontSize: 11, formatter: function(p) { return p.value > 0 ? p.value : '0'; } } },
+      { name: 'Baseline（标准 SFT）', type: 'bar', data: [9805, 4234], itemStyle: { color: '#f87171' }, barWidth: 24, label: { show: true, position: 'top', color: '#f87171', fontSize: 11 } }
     ]
   });
 
@@ -1508,7 +1510,8 @@ if (typeof echarts !== 'undefined') {
     c1.resize();
     c2.resize();
     c3.resize();
-    c4.resize();
+    c4a.resize();
+    c4b.resize();
     c5.resize();
   });
 }

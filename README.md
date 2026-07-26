@@ -20,7 +20,7 @@
 
 | 页面 | 说明 |
 |------|------|
-| [**研究报告**](https://ztracer.github.io/glitch-token/glitch-tokens-research.html) | 7 大章节、15 个案例、5 个 ECharts 数据可视化、38 条参考文献 |
+| [**研究报告**](https://ztracer.github.io/glitch-token/glitch-tokens-research.html) | 7 大章节、15 个案例、38 条参考文献 |
 
 ### 研究报告章节
 
@@ -43,23 +43,10 @@
 | 技术 | 用途 |
 |------|------|
 | **HTML5 / CSS3** | 页面结构与样式，CSS Custom Properties 浅色主题 |
-| **Apache ECharts** | 5 个数据可视化图表（类型分布、普遍程度、语种退化、余弦相似度、检测方法雷达图） |
 | **Poppins / Lora** | 正文字体（Google Fonts） |
-| **JetBrains Mono** | 代码/Token 等宽字体（内嵌 base64） |
+| **JetBrains Mono** | 代码/Token 等宽字体（外部 TTF） |
 | **GitHub Pages** | 静态站点部署 |
 | **GitHub Actions** | CI/CD 自动部署工作流 |
-
----
-
-## 数据可视化
-
-研究报告内嵌 5 个 ECharts 交互式图表：
-
-1. **Token 类型分布** — 15 个案例按四大类别的水平柱状图
-2. **Glitch Token 普遍程度** — 主流模型故障比例与幻觉率对比
-3. **各语种 Token 退化比例** — 日语 29.7% 显著高于其他语种
-4. **lm_head 余弦相似度对比** — 实验组（+全词表覆盖）vs Baseline
-5. **检测方法能力雷达图** — Magikarp / GlitchHunter / GlitchProber / GlitchMiner 五维对比
 
 ---
 
@@ -109,12 +96,16 @@
 
 ```
 ├── index.html                          # 首页
-├── glitch-tokens-research.html         # 研究报告（含 ECharts 图表，字体内嵌）
+├── glitch-tokens-research.html         # 研究报告
 ├── assets/
-│   └── favicon.svg                     # 站点图标
-├── _shared/
+│   ├── favicon.svg                     # 站点图标
+│   ├── css/
+│   │   └── style.css                   # 研究报告样式
+│   ├── fonts/
+│   │   ├── JetBrainsMono-Regular.ttf   # 等宽字体
+│   │   └── JetBrainsMono-Bold.ttf      # 等宽字体（粗体）
 │   └── js/
-│       └── echarts.min.js              # ECharts 可视化库（备用，v2 已内嵌 base64）
+│       └── back-to-top.js              # 回到顶部按钮
 └── .github/
     └── workflows/
         └── deploy.yml                  # GitHub Pages 自动部署

@@ -20,7 +20,7 @@
 
 | 页面 | 说明 |
 |------|------|
-| [**研究报告**](https://ztracer.github.io/glitch-token/glitch-tokens-research.html) | 7 大章节、15 个案例、5 个 ECharts 数据可视化、28 条参考文献 |
+| [**研究报告**](https://ztracer.github.io/glitch-token/glitch-tokens-research.html) | 7 大章节、15 个案例、5 个 ECharts 数据可视化、38 条参考文献 |
 
 ### 研究报告章节
 
@@ -42,10 +42,10 @@
 
 | 技术 | 用途 |
 |------|------|
-| **HTML5 / CSS3** | 页面结构与样式，CSS Custom Properties 暗色主题 |
+| **HTML5 / CSS3** | 页面结构与样式，CSS Custom Properties 浅色主题 |
 | **Apache ECharts** | 5 个数据可视化图表（类型分布、普遍程度、语种退化、余弦相似度、检测方法雷达图） |
-| **Instrument Sans** | 正文字体（Regular / Bold） |
-| **JetBrains Mono** | 代码/Token 等宽字体（Regular / Bold） |
+| **Poppins / Lora** | 正文字体（Google Fonts） |
+| **JetBrains Mono** | 代码/Token 等宽字体（内嵌 base64） |
 | **GitHub Pages** | 静态站点部署 |
 | **GitHub Actions** | CI/CD 自动部署工作流 |
 
@@ -101,7 +101,7 @@
 | 20 | [新智元](https://hub.baai.ac.cn/view/36580) | GlitchHunter 论文中文报道 |
 | 21 | [量子位](https://hub.baai.ac.cn/view/37069) | Fishing for Magikarp 论文中文报道 |
 
-完整 28 条参考文献详见[研究报告末尾](https://ztracer.github.io/glitch-token/glitch-tokens-research.html)。
+完整 38 条参考文献详见[研究报告末尾](https://ztracer.github.io/glitch-token/glitch-tokens-research.html)。
 
 ---
 
@@ -109,18 +109,12 @@
 
 ```
 ├── index.html                          # 首页
-├── glitch-tokens-research.html         # 研究报告（含 ECharts 图表）
+├── glitch-tokens-research.html         # 研究报告（含 ECharts 图表，字体内嵌）
 ├── assets/
 │   └── favicon.svg                     # 站点图标
 ├── _shared/
-│   ├── css/                            # 共享样式（预留）
-│   ├── fonts/
-│   │   ├── InstrumentSans-Regular.ttf
-│   │   ├── InstrumentSans-Bold.ttf
-│   │   ├── JetBrainsMono-Regular.ttf
-│   │   └── JetBrainsMono-Bold.ttf
 │   └── js/
-│       └── echarts.min.js              # ECharts 可视化库
+│       └── echarts.min.js              # ECharts 可视化库（备用，v2 已内嵌 base64）
 └── .github/
     └── workflows/
         └── deploy.yml                  # GitHub Pages 自动部署
